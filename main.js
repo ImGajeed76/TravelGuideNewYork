@@ -2,7 +2,23 @@ let map;
 
 let points = [[([40.74098626727528, -73.98968072574704]), "<h1> Flatiron Building </h1>" + "<h3> Sight </h3>" + "<p> Famous tower named after its iron shape, built in 1902 by architect Daniel Burnham. </p>"], [([40.77942845513298, -73.96323327296925]), "<h1> Metropolitan Museum of Art </h1>" + "<h3> Muesum </h3>" + "<p> Imposing building with one of the most important art collections in the world - from ancient to modern. </p>"], [([40.74851976157696, -73.98569514333286]), "<h1> Empire State Building </h1>" + "<h3> Sight </h3>" + "<p> Famous Art Deco office building from 1931 with exhibitions and observation decks on the 86th and 102nd floors. </p>"]]
 
+function readPositions(file) {
+    let newPoints = []
+
+    fetch(file).then((response) => {
+        newPoints = response
+
+        points = []
+        for (let newPoint of newPoints) {
+            points.push([newPoint.position, "<h1>" + newPoint.title + "</h1>"])
+        }
+
+        console.log(response)
+    })
+}
+
 function setup() {
+    readPositions("positions.json")
     map = L.map('map').setView([40.75828460278274, -73.98243465344264], 11.5);
 
     let mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
